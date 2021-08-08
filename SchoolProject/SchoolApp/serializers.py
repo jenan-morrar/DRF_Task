@@ -14,7 +14,7 @@ class ClassRoomSerializer(serializers.ModelSerializer):
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subject
-        fields = ['pk','subjectName','SubjectRoom','classRoomName']
+        fields = ['pk','subjectName','classRoomName']
 
 
 class StudentSerializer(serializers.ModelSerializer):
