@@ -10,5 +10,5 @@ router.register('classrooms',views.ClassroomView)
 router.register('grades',views.GradeView)
 
 urlpatterns = [
-    path('',include(router.urls))
+    path('',include(router.urls)),
 ]
