@@ -1,33 +1,53 @@
 from django.shortcuts import render
-from rest_framework import viewsets,generics
+from rest_framework import viewsets,generics,permissions
+from django.contrib.auth.models import User
 from .models import Student,Teacher,Subject,ClassRoom,Grade
-from .serializers import StudentSerializer,TeacherSerializer,SubjectSerializer,ClassRoomSerializer,GradeSerializer
+from .serializers import StudentSerializer,TeacherSerializer,SubjectSerializer,ClassRoomSerializer,GradeSerializer,UserSerializer
 
 # *************** using ViewSets *********************
+
+class UserView(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 class StudentView(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 class TeachertView(viewsets.ModelViewSet):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 class SubjectView(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 class ClassroomView(viewsets.ModelViewSet):
     queryset = ClassRoom.objects.all()
     serializer_class = ClassRoomSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 class GradeView(viewsets.ModelViewSet):
     queryset = Grade.objects.all()
     serializer_class = GradeSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 # *************** using Generic *********************
 
-class StudentList(generics.ListCreateAPIView):
+"""class StudentList(generics.ListCreateAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
@@ -67,4 +87,4 @@ class GradeList(generics.ListCreateAPIView):
 
 class GradeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Grade.objects.all()
-    serializer_class = GradeSerializer
+    serializer_class = GradeSerializer"""
