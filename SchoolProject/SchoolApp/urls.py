@@ -12,8 +12,8 @@ router.register('grades',views.GradeView)
 
 urlpatterns = [
     path('',include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework_school')),
+    # Paths for Generics
     # path('generics/students/', views.StudentList.as_view()),
     # path('generics/students/<int:pk>', views.StudentDetail.as_view()),
     # path('generics/teachers/', views.TeachertList.as_view()),
