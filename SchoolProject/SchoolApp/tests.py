@@ -30,11 +30,15 @@ class TeacherTestCase(APITestCase):
         self.password = 'admin4'
         self.user = User.objects.create(username=self.username, password=self.password)
         self.client.force_authenticate(user=self.user)
+        self.classroom = ClassRoom.objects.create(classRoomName="old room", owner=self.user)
+        self.subject = Subject.objects.create(subjectName='math', classRoomName=self.classroom,owner=self.user)
+        self.teacher = Teacher.objects.create(teacherName='mustafa', owner=self.user)
+        self.teacher.teacherSubjects.add(self.subject)
 
     def test_1(self):
         # Example of retrieve
-        response = self.client.get(reverse("teacher-detail", kwargs={"pk": 3}))
-        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
+        response = self.client.get(reverse("teacher-detail", kwargs={"pk": self.teacher.pk}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class SubjectTestCase(APITestCase):
