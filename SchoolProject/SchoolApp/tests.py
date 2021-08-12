@@ -43,11 +43,13 @@ class SubjectTestCase(APITestCase):
         self.password = 'admin4'
         self.user = User.objects.create(username=self.username, password=self.password)
         self.client.force_authenticate(user=self.user)
+        self.classroom = ClassRoom.objects.create(classRoomName="old room", owner=self.user)
+        self.subject = Subject.objects.create(subjectName='math', classRoomName=self.classroom,owner=self.user)
 
     def test_1(self):
         # Example of delete
-        response = self.client.delete(reverse("subject-detail", kwargs={'pk': 1}))
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        response = self.client.delete(reverse("subject-detail", kwargs={'pk': self.subject.pk}))
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
 
 class GradeTestCase(APITestCase):
